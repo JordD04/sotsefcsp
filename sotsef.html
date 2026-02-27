@@ -1,0 +1,220 @@
+<html>
+
+<head>
+<title>Crystal Structure Scavenger Hunt</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+	
+	<div style="margin-bottom: 15px; font-family: sans-serif;">
+		<input type="text" id="predictorInput" placeholder="Enter Predictor (e.g. Maddox)">
+		<button onclick="updateColors()">Highlight</button>
+		<button onclick="resetColors()">Reset</button>
+	</div>
+	
+	<div style="display: flex; gap: 20px; align-items: flex-start;">
+
+		<div id="leaderboard" style="font-family: sans-serif; border: 1px solid #ccc; padding: 10px; width: 300px;">
+			<h3 style="margin-top: 0;">Most Crystals Predicted</h3>
+			<ol id="leaderboardList"></ol>
+		</div>
+		
+		<div id="energyLeaderboard" style="font-family: sans-serif; border: 1px solid #ccc; padding: 10px; width: 300px;">
+			<h3 style="margin-top: 0;">Lowest Energy Crystal Found</h3>
+			<ol id="energyList"></ol>
+		</div>
+
+	</div>
+	
+	<div id="chartContainer">
+        <canvas id="CrystalLandscape"></canvas>
+    </div>
+
+	<script>
+        // Data
+        const rawData = [
+            { x: 1.196, y: -1.08 }, { x: 1.258, y: -64.2 }, { x: 1.104, y: -152.62 }, 
+            { x: 1.389, y: -71.91 }, { x: 1.312, y: -133.37 }, { x: 1.389, y: -73.76 }, 
+            { x: 1.226, y: -8.56 }, { x: 1.169, y: -75.94 }, { x: 1.41, y: -56.06 }, 
+            { x: 1.335, y: -188.29 }, { x: 1.364, y: -98.35 }, { x: 1.332, y: -29.63 }, 
+            { x: 1.255, y: -163.8 }, { x: 1.242, y: -118.38 }, { x: 1.233, y: -95.09 }, 
+            { x: 1.157, y: -119.83 }, { x: 1.018, y: -169.7 }, { x: 1.364, y: -50.35 }, 
+            { x: 1.315, y: -126.86 }, { x: 1.018, y: -20.66 }
+        ];
+		
+		const dataNames = [
+            "one", "two", "three", 
+            "four", "five", "six", 
+            "seven", "eight", "nine", 
+            "ten", "eleven", "twelve", 
+            "thirteen", "fourteen", "fifteen", 
+            "sixteen", "seventeen", "eighteen", 
+            "nineteen", "twenty"
+        ];
+		
+		const predictors = {
+			"Alpha": ["one", "two", "five", "one"],
+			"Beta": ["one", "seventeen", "twenty"],
+			"Gamma": ["twelve", "fifteen"],
+			"Delta": ["three", "four"],
+			"Epsilon": ["six", "eight"],
+			"Jennie": ["six", "seven"]
+		};
+		
+		const allAllowedNames = Object.values(predictors).flat();	
+		
+		const filteredPoints = [];
+		const filteredLabels = [];
+
+		rawData.forEach((point, index) => {
+			const name = dataNames[index];
+			// Only add to the chart if the name exists in our combined arrays
+			if (allAllowedNames.includes(name)) {
+				filteredPoints.push(point);
+				filteredLabels.push(name);
+			}
+		});
+
+
+        let myChart; // Variable to hold the Chart.js instance
+
+        // --- Chart Initialization ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('CrystalLandscape');
+
+            myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Data Samples',
+                        data: filteredPoints,
+                        pointBackgroundColor: 'rgba(0, 0, 0, 1)', 
+                        pointBorderColor: 'rgba(0, 0, 0, 1)', 
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Density (g/cm³)' }, min: 0.8, max: 1.6 },
+                        y: { type: 'linear', title: { display: true, text: 'Energy (kJ/mol)' }, min: -220, max: 20 }
+                    },
+                    responsive: true,
+                    plugins: { 
+						legend: { display: false }, 
+						tooltip: {
+							callbacks: {
+								label: function(context) {
+									const name = filteredLabels[context.dataIndex];
+									
+									// Find every collection key where the name exists
+									const activePredictors = Object.keys(predictors).filter(key => 
+										predictors[key].includes(name)
+									);
+
+									return `${name} | Found by: ${activePredictors.join(', ')}`;
+								}
+							}
+						}
+					}
+                }
+            });
+        });
+		
+	function updateColors() {
+		const term = document.getElementById('predictorInput').value;
+		const targetNames = predictors[term];
+
+		if (!targetNames) {
+			alert("Predictor not found! Try again.");
+			return;
+		}
+
+		// Update colors AND sizes based on the predictor match
+		const newColors = [];
+		const newSizes = [];
+
+		filteredLabels.forEach(name => {
+			if (targetNames.includes(name)) {
+				newColors.push('rgba(255, 99, 132, 1)'); // High-visibility pink/red
+				newSizes.push(10);                    // Larger size
+			} else {
+				newColors.push('rgba(0, 0, 0, 0.4)'); // Fade out non-matches
+				newSizes.push(6);                     // Standard size
+			}
+		});
+
+		// Apply the arrays to the dataset
+		const dataset = myChart.data.datasets[0];
+		dataset.pointBackgroundColor = newColors;
+		dataset.pointBorderColor = newColors;
+		dataset.pointRadius = newSizes; // Add this to change size dynamically
+		
+		myChart.update();
+	}
+
+	function resetColors() {
+		const dataset = myChart.data.datasets[0];
+		dataset.pointBackgroundColor = 'rgba(0, 0, 0, 1)';
+		dataset.pointBorderColor = 'rgba(0, 0, 0, 1)';
+		dataset.pointRadius = 6;
+		myChart.update();
+	}
+	
+	function updateLeaderboard() {
+		const listElement = document.getElementById('leaderboardList');
+		listElement.innerHTML = ""; 
+
+		const scores = Object.keys(predictors).map(name => {
+			const uniquePoints = new Set(predictors[name]);
+			return { name: name, count: uniquePoints.size };
+		});
+
+		scores.sort((a, b) => b.count - a.count);
+
+		// .slice(0, 3) limits the loop to the first 3 items
+		scores.slice(0, 10).forEach((score, index) => {
+			const li = document.createElement('li');
+			li.innerHTML = `<strong>${score.name}</strong>: ${score.count} points`;
+			listElement.appendChild(li);
+		});
+	}
+	
+	// Call this once on page load
+	document.addEventListener('DOMContentLoaded', updateLeaderboard);
+	
+	
+	function updateEnergyLeaderboard() {
+		const listElement = document.getElementById('energyList');
+		listElement.innerHTML = "";
+
+		const energyRankings = Object.keys(predictors).map(name => {
+			const pointNames = predictors[name];
+			const minEnergy = Math.min(...pointNames.map(pName => {
+				const index = dataNames.indexOf(pName);
+				return rawData[index].y;
+			}));
+			return { name, minEnergy };
+		});
+
+		energyRankings.sort((a, b) => a.minEnergy - b.minEnergy);
+
+		// .slice(0, 10) limits the loop to the top 10 lowest energies
+		energyRankings.slice(0, 10).forEach((rank, index) => {
+			const li = document.createElement('li');
+			li.innerHTML = `<strong>${rank.name}</strong>: <span style="color: #7b1fa2;">${rank.minEnergy} kJ/mol</span>`;
+			listElement.appendChild(li);
+		});
+	}
+
+	// Add this to your existing DOMContentLoaded listener
+	document.addEventListener('DOMContentLoaded', () => {
+		updateLeaderboard(); // Your existing count leaderboard
+		updateEnergyLeaderboard(); 
+	});
+    </script>
+	
+</body>
+
+</html>
