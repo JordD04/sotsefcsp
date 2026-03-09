@@ -34,53 +34,62 @@
 	<script>
         // Data
         const rawData = [
-		    { x: 1.47600, y: -113.39}, { x: 1.49100, y: -118.37}, { x: 1.41700, y: -117.06},
-		    { x: 1.46700, y: -118.33}, { x: 1.41500, y: -113.60}, { x: 1.37900, y: -114.59},
-		    { x: 1.43900, y: -115.13}, { x: 1.46300, y: -117.12}, { x: 1.46600, y: -115.32},
-		    { x: 1.45000, y: -115.25}, { x: 1.44000, y: -113.74}, { x: 1.44100, y: -113.79},
-		    { x: 1.44900, y: -113.94}, { x: 1.45700, y: -118.75}, { x: 1.43100, y: -118.39},
-		    { x: 1.40100, y: -113.41}, { x: 1.46200, y: -117.09}, { x: 1.42600, y: -116.84},
-		    { x: 1.47200, y: -115.53}, { x: 1.46900, y: -113.72}, { x: 1.48200, y: -113.41},
-		    { x: 1.44300, y: -113.98}, { x: 1.43900, y: -113.35}, { x: 1.43500, y: -118.82},
-		    { x: 1.46300, y: -113.43}, { x: 1.41400, y: -115.95}, { x: 1.39900, y: -114.70},
-		    { x: 1.46800, y: -113.70}, { x: 1.46000, y: -115.42}, { x: 1.43000, y: -116.49},
-		    { x: 1.43800, y: -114.19}, { x: 1.45500, y: -113.74}, { x: 1.45500, y: -117.83},
-		    { x: 1.47000, y: -116.01}, { x: 1.45300, y: -113.81}, { x: 1.46100, y: -113.85},
-		    { x: 1.42300, y: -113.29}, { x: 1.41600, y: -113.44}, { x: 1.47200, y: -115.53},
-		    { x: 1.45500, y: -116.94}, { x: 1.38900, y: -116.17}, { x: 1.39400, y: -116.34},
-		    { x: 1.44400, y: -113.99}, { x: 1.44000, y: -113.79}, { x: 1.44700, y: -117.26},
-		    { x: 1.49000, y: -119.85}, { x: 1.47000, y: -113.98}, { x: 1.45200, y: -117.57},
-		    { x: 1.46200, y: -115.56}, { x: 1.47500, y: -119.08}, { x: 1.47600, y: -117.72},
-    ];
+		    { x: 1.39400, y: -116.34}, { x: 1.46300, y: -113.43}, { x: 1.45500, y: -117.83},
+    		{ x: 1.43500, y: -118.82}, { x: 1.45500, y: -116.94}, { x: 1.43800, y: -114.19},
+    		{ x: 1.40100, y: -113.41}, { x: 1.46000, y: -115.42}, { x: 1.47000, y: -116.01},
+    		{ x: 1.42600, y: -116.84}, { x: 1.47500, y: -119.08}, { x: 1.44300, y: -113.98},
+    		{ x: 1.40300, y: -113.05}, { x: 1.45000, y: -115.25}, { x: 1.46300, y: -117.12},
+    		{ x: 1.45900, y: -112.98}, { x: 1.44900, y: -113.94}, { x: 1.46900, y: -112.71},
+    		{ x: 1.46700, y: -118.33}, { x: 1.43100, y: -118.39}, { x: 1.43900, y: -113.35},
+    		{ x: 1.41400, y: -115.95}, { x: 1.46200, y: -117.09}, { x: 1.45200, y: -117.57},
+   			{ x: 1.41800, y: -113.06}, { x: 1.43800, y: -112.94}, { x: 1.46800, y: -113.70},
+    		{ x: 1.41700, y: -117.06}, { x: 1.39300, y: -113.01}, { x: 1.37900, y: -114.59},
+    		{ x: 1.38900, y: -116.17}, { x: 1.47000, y: -112.94}, { x: 1.45300, y: -113.81},
+    		{ x: 1.46100, y: -113.85}, { x: 1.44900, y: -113.19}, { x: 1.43000, y: -116.49},
+    		{ x: 1.42300, y: -113.29}, { x: 1.49000, y: -119.85}, { x: 1.47200, y: -115.53},
+    		{ x: 1.44400, y: -113.99}, { x: 1.46900, y: -113.72}, { x: 1.49100, y: -118.37},
+    		{ x: 1.46600, y: -115.32}, { x: 1.45200, y: -113.09}, { x: 1.46200, y: -115.56},
+    		{ x: 1.47600, y: -113.39}, { x: 1.45500, y: -113.74}, { x: 1.41800, y: -112.91},
+    		{ x: 1.42500, y: -113.23}, { x: 1.41600, y: -113.44}, { x: 1.41500, y: -113.60},
+    		{ x: 1.45700, y: -118.75}, { x: 1.48200, y: -113.41}, { x: 1.47200, y: -115.53},
+    		{ x: 1.39900, y: -114.70}, { x: 1.47000, y: -113.98}, { x: 1.44000, y: -113.79},
+    		{ x: 1.44100, y: -113.79}, { x: 1.46300, y: -112.96}, { x: 1.44700, y: -117.26},
+    		{ x: 1.44000, y: -113.74}, { x: 1.37500, y: -113.08}, { x: 1.47600, y: -117.72},
+    		{ x: 1.43900, y: -115.13}, ];
 		
 		const dataNames = [
-		    "grumpy dog", "tiny seal", "small squirrel",
-		    "brilliant falcon", "green frog", "brave frog",
-		    "yellow bat", "blue scientist", "mysterious badger",
-		    "brilliant dog", "orange newt", "happy owl",
-		    "nervous swan", "grumpy engineer", "brilliant newt",
-		    "blue adder", "grumpy owl", "large frog",
-		    "tiny hedgehog", "nervous engineer", "grumpy deer",
-		    "calm mallard", "indigo badger", "small falcon",
-		    "green falcon", "hungry falcon", "curious scientist",
-		    "violet seagull", "lively bat", "tiny dog",
-		    "blue cat", "brave deer", "red bat",
-		    "fancy fox", "orange owl", "nervous fox",
-		    "red doctor", "curious hedgehog", "small newt",
-		    "hungry rabbit", "large swan", "nervous mallard",
-		    "indigo seal", "indigo seagull", "nervous bat",
-		    "nervous adder", "grumpy falcon", "blue bat",
-		    "red hedgehog", "jolly swan", "hungry dolphin",
-    ];
+		    "grumpy swan", "yellow rabbit", "brave frog",
+			"large mallard", "grumpy squirrel", "blue mallard",
+			"jolly dog", "curious owl", "yellow dolphin",
+			"brave adder", "indigo doctor", "nervous swan",
+			"blue falcon", "grumpy owl", "mysterious frog",
+			"brave swan", "fancy swan", "green seagull",
+			"nervous hedgehog", "brilliant owl", "fancy owl",
+			"small seagull", "brave fox", "small rabbit",
+			"small bat", "grumpy mathematician", "lively adder",
+			"curious bat", "large mathematician", "large seal",
+			"indigo frog", "lively mallard", "yellow frog",
+			"hungry falcon", "red mathematician", "calm seagull",
+			"orange fox", "blue cat", "grumpy doctor",
+			"jolly cat", "violet newt", "brave bat",
+			"curious cat", "green mathematician", "grumpy cat",
+			"happy seagull", "mysterious scientist", "orange dolphin",
+			"large deer", "calm seal", "large rabbit",
+			"fancy bat", "happy deer", "green bat",
+			"nervous dog", "brave owl", "curious seal",
+			"calm doctor", "small scientist", "small badger",
+			"brave rabbit", "brilliant scientist", "mysterious falcon",
+			"yellow scientist",
+    		];
 		
 		const predictors = {
-			"Alpha": ["indigo seal", "curious hedgehog", "grumpy dog", "blue bat"],
-			"Beta": ["indigo seagull", "grumpy owl", "jolly swan"],
-			"Gamma": ["brilliant dog", "large frog"],
-			"Delta": ["hungry dolphin", "orange owl"],
-			"Epsilon": ["brave deer", "blue scientist"],
-			"Masih" : ["red hedgehog", "blue bat", "hungry dolphin"],
-			"Graeme" : ["orange newt"]
+			"Alpha": ["grumpy swan", "yellow rabbit", "large mathematician", "small scientist"],
+			"Beta": ["grumpy cat", "curious cat", "small badger"],
+			"Gamma": ["mysterious falcon", "brave rabbit"],
+			"Delta": ["brave fox", "green seagull"],
+			"Epsilon": ["yellow dolphin", "curious bat"],
+			"Masih" : ["fancy swan", "jolly cat", "calm seal"],
+			"Graeme" : ["indigo doctor"]
 		};
 		
 		const allAllowedNames = Object.values(predictors).flat();	
@@ -239,6 +248,7 @@
 </body>
 
 </html>
+
 
 
 
