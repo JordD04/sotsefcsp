@@ -3,32 +3,165 @@
 <head>
 <title>Crystal Structure Scavenger Hunt</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+    :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --accent: #7b1fa2;
+        --border: #e2e8f0;
+    }
+
+    body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+        margin: 0;
+        padding: 40px;
+        line-height: 1.5;
+    }
+
+    /* Search/Control Bar */
+    .controls {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid var(--border);
+    }
+
+    input[type="text"] {
+        padding: 10px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        flex-grow: 1;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    button {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    button:first-of-type {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    button:first-of-type:hover {
+        background-color: var(--primary-hover);
+    }
+
+    button:last-of-type {
+        background-color: #f1f5f9;
+        color: var(--text-muted);
+    }
+
+    button:last-of-type:hover {
+        background-color: #e2e8f0;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 30px;
+    }
+
+    .leaderboard-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    h3 {
+        margin: 0 0 15px 0;
+        font-size: 1.1rem;
+        color: var(--text-main);
+        border-bottom: 2px solid var(--bg);
+        padding-bottom: 10px;
+    }
+
+    ol {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed var(--border);
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    /* Chart Area */
+    #chartContainer {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        height: fit-content;
+    }
+</style>
+
 </head>
 
 <body>
 	
-	<div style="margin-bottom: 15px; font-family: sans-serif;">
-		<input type="text" id="predictorInput" placeholder="Enter Predictor (e.g. Maddox)">
-		<button onclick="updateColors()">Highlight</button>
-		<button onclick="resetColors()">Reset</button>
-	</div>
-	
-	<div style="display: flex; gap: 20px; align-items: flex-start;">
+	<h1 style="margin-top: 0; color: #1e293b;">Crystal Structure Scavenger Hunt</h1>
 
-		<div id="leaderboard" style="font-family: sans-serif; border: 1px solid #ccc; padding: 10px; width: 300px;">
-			<h3 style="margin-top: 0;">Most Crystals Predicted</h3>
-			<ol id="leaderboardList"></ol>
-		</div>
-		
-		<div id="energyLeaderboard" style="font-family: sans-serif; border: 1px solid #ccc; padding: 10px; width: 300px;">
-			<h3 style="margin-top: 0;">Lowest Energy Crystal Found</h3>
-			<ol id="energyList"></ol>
-		</div>
+    <div class="controls">
+        <input type="text" id="predictorInput" placeholder="Enter Predictor (e.g. Alpha, Masih)">
+        <button onclick="updateColors()">Highlight</button>
+        <button onclick="resetColors()">Reset</button>
+    </div>
+    
+    <div class="dashboard-grid">
+        <div class="leaderboard-column">
+            <div id="leaderboard" class="card">
+                <h3>Most Crystals Predicted</h3>
+                <ol id="leaderboardList"></ol>
+            </div>
+            
+            <div id="energyLeaderboard" class="card">
+                <h3>Lowest Energy Found</h3>
+                <ol id="energyList"></ol>
+            </div>
+        </div>
 
-	</div>
-	
-	<div id="chartContainer">
-        <canvas id="CrystalLandscape"></canvas>
+        <div id="chartContainer" class="card">
+            <canvas id="CrystalLandscape"></canvas>
+        </div>
     </div>
 
 	<script>
@@ -89,7 +222,7 @@
 			"Delta": ["brave fox", "green seagull"],
 			"Epsilon": ["yellow dolphin", "curious bat"],
 			"Masih" : ["fancy swan", "jolly cat", "calm seal"],
-			"Graeme" : ["indigo doctor"]
+			"Graeme" : ["indigo doctor"],
 		};
 		
 		const allAllowedNames = Object.values(predictors).flat();	
@@ -248,12 +381,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
